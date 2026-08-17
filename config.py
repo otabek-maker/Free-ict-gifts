@@ -2,16 +2,28 @@ import os
 from dataclasses import dataclass, field
 from typing import List
 
+
+def _normalize_db_url(url: str) -> str:
+    """Railway (va boshqa provayderlar) odatda 'postgresql://' yoki 'postgres://'
+    formatida URL beradi. Bizga asyncpg drayveri kerak, shuning uchun avtomatik
+    to'g'irlaymiz."""
+    if url.startswith("postgres://"):
+        url = url.replace("postgres://", "postgresql://", 1)
+    if url.startswith("postgresql://") and "+asyncpg" not in url:
+        url = url.replace("postgresql://", "postgresql+asyncpg://", 1)
+    return url
+
+
 @dataclass
 class Config:
     # Bot tokeni - @BotFather dan olinadi
     BOT_TOKEN: str = os.getenv("BOT_TOKEN", "8617473134:AAEDWapRqHtJpLHQ6IRIzCFNmsstWsA0k_w")
 
     # Ma'lumotlar bazasi ulanish manzili (PostgreSQL)
-    DATABASE_URL: str = os.getenv(
+    DATABASE_URL: str = _normalize_db_url(os.getenv(
         "DATABASE_URL",
         "postgresql+asyncpg://user:password@localhost:5432/freegift"
-    )
+    ))
 
     # Admin(lar) Telegram ID raqami (pul so'rovlarini tasdiqlash uchun)
     ADMIN_IDS: List[int] = field(default_factory=lambda: [8600950595])
