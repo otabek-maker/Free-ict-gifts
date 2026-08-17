@@ -1,7 +1,8 @@
 import os
 import sqlalchemy
-DATABASE_URL = os.getenv("DATABASE_URL")import asyncio
 import logging
+import asyncio
+DATABASE_URL = os.getenv("DATABASE_URL")
 
 from aiogram import Bot, Dispatcher
 from aiogram.fsm.storage.memory import MemoryStorage
