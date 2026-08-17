@@ -1,4 +1,6 @@
-import asyncio
+import os
+import sqlalchemy
+DATABASE_URL = os.getenv("DATABASE_URL")import asyncio
 import logging
 
 from aiogram import Bot, Dispatcher
