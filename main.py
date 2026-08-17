@@ -2,7 +2,8 @@ import os
 import sqlalchemy
 import logging
 import asyncio
-DATABASE_URL = os.getenv("DATABASE_URL")
+import os
+DATABASE_URL = os.getenv("DATABASE_URL").replace("postgresql://", "postgresql+asyncpg://")
 
 from aiogram import Bot, Dispatcher
 from aiogram.fsm.storage.memory import MemoryStorage
