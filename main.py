@@ -8,6 +8,7 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from config import config
 from database import init_db
 from handlers import start, case, referral, withdraw
+from webserver import start_webserver
 
 logging.basicConfig(level=logging.INFO)
 
@@ -24,6 +25,10 @@ async def main():
 
     # Bazani tayyorlash (jadvallarni yaratish)
     await init_db()
+
+    # Mini-ilova uchun API serverni ishga tushirish
+    await start_webserver(bot)
+    logging.info("API server ishga tushdi...")
 
     # Har kuni referal mukofotlarini avtomatik hisoblash uchun scheduler
     scheduler = AsyncIOScheduler()
